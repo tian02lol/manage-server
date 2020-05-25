@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.RoleDao">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.RoleEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_description" jdbcType="VARCHAR" property="roleDescription" />
+    <result column="role_mdules" jdbcType="VARCHAR" property="roleMdules" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, role_name, role_description, role_mdules
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.entity.RoleEntity" useGeneratedKeys="true">
+    insert into role (role_name, role_description, role_mdules
+      )
+    values (#{roleName,jdbcType=VARCHAR}, #{roleDescription,jdbcType=VARCHAR}, #{roleMdules,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.entity.RoleEntity" useGeneratedKeys="true">
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleName != null">
+        role_name,
+      </if>
+      <if test="roleDescription != null">
+        role_description,
+      </if>
+      <if test="roleMdules != null">
+        role_mdules,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDescription != null">
+        #{roleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="roleMdules != null">
+        #{roleMdules,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.RoleEntity">
+    update role
+    <set>
+      <if test="roleName != null">
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDescription != null">
+        role_description = #{roleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="roleMdules != null">
+        role_mdules = #{roleMdules,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.RoleEntity">
+    update role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      role_description = #{roleDescription,jdbcType=VARCHAR},
+      role_mdules = #{roleMdules,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
