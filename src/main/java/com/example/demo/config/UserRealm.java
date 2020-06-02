@@ -1,5 +1,7 @@
 package com.example.demo.config;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.example.demo.biz.UserBiz;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -26,6 +28,8 @@ public class UserRealm extends AuthorizingRealm {
         if(userEntity == null){
             return null;
         }
-        return new SimpleAuthenticationInfo(userEntity,userEntity.getUserPassword(),"");
+        String jwt = JWT.create().withAudience(userEntity.getId() + "").sign(Algorithm.HMAC256(userEntity.getUserPassword()));
+
+        return new SimpleAuthenticationInfo(jwt,userEntity.getUserPassword(),"");
     }
 }
