@@ -30,3 +30,7 @@ spring:
     mapper-locations: classpath*:**/dao/*.xml
     configuration:
       database-id: mysql
+
+jwt:
+  config:
+    timeout: 3600000

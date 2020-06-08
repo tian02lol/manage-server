@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/")
 public class WebAction {
-
+    /**
+     * 登录
+     * @param userEntity
+     * @return
+     */
     @PostMapping("/login")
     @ResponseBody
     @NoToken
