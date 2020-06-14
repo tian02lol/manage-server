@@ -1,6 +1,9 @@
 package com.example.demo.biz;
 
+import com.example.demo.entity.UserEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 public interface UserBiz {
     int deleteByPrimaryKey(Integer id);
@@ -16,5 +19,7 @@ public interface UserBiz {
     int updateByPrimaryKey(com.example.demo.entity.UserEntity record);
 
     com.example.demo.entity.UserEntity selectByUserName(String userName);
+
+    List<UserEntity> selectAll();
 
 }

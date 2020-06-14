@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.demo.Ann.NoToken;
 import com.example.demo.biz.UserBiz;
 import com.example.demo.entity.UserEntity;
+import com.example.demo.exception.TokenException;
 import com.example.demo.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
@@ -41,25 +42,25 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             String token = httpServletRequest.getHeader("token");
             // Token不存在
             if (token == null) {
-                throw new Exception();
+                throw new TokenException("登录失效",401);
             }
             // 获取用户ID，如果出错抛异常
             Integer userId;
             try {
                 userId = AuthUtils.getUserId(httpServletRequest);
             } catch (JWTDecodeException j) {
-                throw new Exception();
+                throw new TokenException("登录失效",401);
             }
             UserEntity user = userBiz.selectByPrimaryKey(userId);
             if (user == null) {
-                throw new Exception();
+                throw new TokenException("登录失效",401);
             }
             // 验证Token是否有效
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getUserPassword() + "")).build();
             try {
                 jwtVerifier.verify(token);
             } catch (JWTVerificationException e) {
-                throw new Exception();
+                throw new TokenException("登录失效",401);
             }
             return true;
         }

@@ -6,12 +6,13 @@ import com.example.demo.entity.UserEntity;
 import com.example.demo.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 用户
@@ -37,6 +38,35 @@ public class UserAction {
             return AjaxResult.success(user);
         } else {
             return AjaxResult.failure("登录失效");
+        }
+    }
+    /**
+     * 获取用户列表
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @return
+     */
+    @GetMapping("/list")
+    @ResponseBody
+    public AjaxResult list(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        List users = userBiz.selectAll();
+        return AjaxResult.success(users);
+    }
+
+    /**
+     * 添加用户
+     * @param userEntity
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("/save")
+    @ResponseBody
+    public AjaxResult save(@ModelAttribute @Valid UserEntity userEntity,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return AjaxResult.failure(bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            userBiz.insertSelective(userEntity);
+            return AjaxResult.success();
         }
     }
 }

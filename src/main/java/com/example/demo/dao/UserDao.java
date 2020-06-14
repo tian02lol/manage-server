@@ -4,6 +4,8 @@ import com.example.demo.entity.UserEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 public interface UserDao {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,4 +20,6 @@ public interface UserDao {
     int updateByPrimaryKey(UserEntity record);
 
     UserEntity selectByUserName(@Param("userName") String userName);
+
+    List<UserEntity> selectAll();
 }

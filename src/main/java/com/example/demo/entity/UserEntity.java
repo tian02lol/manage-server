@@ -1,16 +1,25 @@
 package com.example.demo.entity;
 
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
  * user
  * @author 
  */
+@Data
 public class UserEntity implements Serializable {
     private Integer id;
 
+    @NotEmpty(message = "用户名不允许为空")
+    @Length(max = 12,message = "最多输入12个字符")
     private String userName;
 
+    @NotEmpty(message = "密码不允许为空")
+    @Length(max = 12,message = "最多输入12个字符")
     private String userPassword;
 
     private String userIcon;

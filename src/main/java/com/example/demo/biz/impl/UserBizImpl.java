@@ -6,6 +6,8 @@ import com.example.demo.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserBizImpl implements UserBiz {
     @Autowired
@@ -43,5 +45,10 @@ public class UserBizImpl implements UserBiz {
     @Override
     public UserEntity selectByUserName(String userName) {
         return userDao.selectByUserName(userName);
+    }
+
+    @Override
+    public List<UserEntity> selectAll() {
+        return userDao.selectAll();
     }
 }
