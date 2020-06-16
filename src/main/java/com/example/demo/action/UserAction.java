@@ -69,4 +69,20 @@ public class UserAction {
             return AjaxResult.success();
         }
     }
+    /**
+     * 修改用户
+     * @param userEntity
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("/update")
+    @ResponseBody
+    public AjaxResult update(@ModelAttribute @Valid UserEntity userEntity,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return AjaxResult.failure(bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            userBiz.updateByPrimaryKeySelective(userEntity);
+            return AjaxResult.success();
+        }
+    }
 }
