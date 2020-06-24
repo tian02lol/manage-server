@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 logging:
   level:
     com.example.demo: DEBUG
@@ -36,4 +36,4 @@ spring:
       database-id: mysql
 jwt:
   config:
-    timeout: 3600000
+    timeout: 3600000 #token过期时间一小时

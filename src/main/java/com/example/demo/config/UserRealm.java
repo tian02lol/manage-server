@@ -12,6 +12,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.Date;
+
 /**
  * 自定义Realm
  */
@@ -20,7 +22,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix="jwt.config")
 public class UserRealm extends AuthorizingRealm {
 
-    private String timeout;
+    private Long timeout;
 
     @Autowired
     private UserBiz userBiz;
@@ -37,7 +39,7 @@ public class UserRealm extends AuthorizingRealm {
             return null;
         }
         String jwt = JWT.create()
-                //.withExpiresAt(new Date(System.currentTimeMillis() + timeout))
+                .withExpiresAt(new Date(System.currentTimeMillis()+timeout))
                 .withAudience(userEntity.getId() + "").sign(Algorithm.HMAC256(userEntity.getUserPassword()));
 
         return new SimpleAuthenticationInfo(jwt,userEntity.getUserPassword(),"");

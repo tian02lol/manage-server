@@ -7,9 +7,10 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.demo.Ann.NoToken;
 import com.example.demo.biz.UserBiz;
+import com.example.demo.entity.AjaxResult;
 import com.example.demo.entity.UserEntity;
-import com.example.demo.exception.TokenException;
 import com.example.demo.utils.AuthUtils;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 public class AuthenticationInterceptor implements HandlerInterceptor {
@@ -42,29 +44,53 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             String token = httpServletRequest.getHeader("token");
             // Token不存在
             if (token == null) {
-                throw new TokenException("登录失效",401);
+                return printContent(httpServletResponse,"token认证异常",401);
             }
             // 获取用户ID，如果出错抛异常
             Integer userId;
             try {
                 userId = AuthUtils.getUserId(httpServletRequest);
             } catch (JWTDecodeException j) {
-                throw new TokenException("登录失效",401);
+                return printContent(httpServletResponse,"token认证异常",401);
             }
             UserEntity user = userBiz.selectByPrimaryKey(userId);
             if (user == null) {
-                throw new TokenException("登录失效",401);
+                return printContent(httpServletResponse,"token认证异常",401);
             }
             // 验证Token是否有效
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getUserPassword() + "")).build();
             try {
                 jwtVerifier.verify(token);
             } catch (JWTVerificationException e) {
-                throw new TokenException("登录失效",401);
+                return printContent(httpServletResponse,"token认证失效",401);
             }
             return true;
         }
         return true;
+    }
+
+    /**
+     * 返回前端状态码
+     * @param response
+     * @param content
+     */
+    private static boolean printContent(HttpServletResponse response, String content,Integer code) {
+        AjaxResult result = new AjaxResult();
+        result.setMsg(content);
+        result.setCode(code);
+        try {
+            response.reset();
+            response.setContentType("application/json");
+            response.setHeader("Cache-Control", "no-store");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter pw = response.getWriter();
+            pw.write(JSONObject.fromObject(result).toString());
+            pw.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return false;
+        }
     }
 
     @Override
