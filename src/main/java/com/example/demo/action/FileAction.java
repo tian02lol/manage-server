@@ -35,7 +35,7 @@ public class FileAction {
         String oldName = file.getOriginalFilename();
         //String newName = UUID.randomUUID().toString() + oldName.substring(oldName.lastIndexOf("."));
         file.transferTo(new File(folder.getAbsolutePath() + File.separator + oldName));
-        String url = "/upload/imgs/" + oldName;
+        String url = "/upload/" + oldName;
         Map data = new HashMap();
         data.put("url",url);
         return AjaxResult.success(data);

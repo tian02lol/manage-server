@@ -12,12 +12,15 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor())
-                .excludePathPatterns("/upload/**")
-                .addPathPatterns("/**"); // 拦截所有请求，通过判断是否有 @LoginRequired 注解
+                .addPathPatterns("/**") // 拦截所有请求，通过判断是否有 @LoginRequired 注解
+                .excludePathPatterns("/upload/**");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        String path = System.getProperty("user.dir")+ "\\src\\main\\resources\\static\\upload\\imgs\\";
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:"+path);
     }
     @Bean
     public AuthenticationInterceptor authenticationInterceptor() {
