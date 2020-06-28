@@ -1,14 +1,24 @@
 package com.example.demo.config;
 
 import com.example.demo.Interceptor.AuthenticationInterceptor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootConfiguration
+@Setter
+@Getter
+@ConfigurationProperties(prefix="upload")
 public class InterceptorConfig implements WebMvcConfigurer {
+
+    private String path;
+    private String address;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor())
@@ -19,8 +29,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        String path = System.getProperty("user.dir")+ "\\src\\main\\resources\\static\\upload\\imgs\\";
-        registry.addResourceHandler("/upload/**").addResourceLocations("file:"+path);
+        registry.addResourceHandler(path).addResourceLocations("file:"+address);
     }
     @Bean
     public AuthenticationInterceptor authenticationInterceptor() {

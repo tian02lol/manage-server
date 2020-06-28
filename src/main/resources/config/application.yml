@@ -37,3 +37,7 @@ spring:
 jwt:
   config:
     timeout: 3600000 #token过期时间一小时
+upload:
+  path: upload/** #静态文件访问
+  address: D://manage/upload/ # 开发环境上传文件地址
+  # address: /usr/java/manage/upload/ #生产环境上传文件地址
