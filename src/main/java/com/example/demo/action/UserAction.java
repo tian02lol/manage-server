@@ -1,9 +1,12 @@
 package com.example.demo.action;
 
+import com.example.demo.biz.RoleBiz;
 import com.example.demo.biz.UserBiz;
 import com.example.demo.entity.AjaxResult;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.utils.AuthUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -46,11 +49,13 @@ public class UserAction {
      * @param httpServletResponse
      * @return
      */
-    @GetMapping("/list")
+    @RequestMapping("/list")
     @ResponseBody
-    public AjaxResult list(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+    public AjaxResult<PageInfo<UserEntity>> list(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        PageHelper.startPage(Integer.parseInt(httpServletRequest.getParameter("pageNum")),Integer.parseInt(httpServletRequest.getParameter("pageSize")));
         List users = userBiz.selectAll();
-        return AjaxResult.success(users);
+        PageInfo<UserEntity> pageInfo = new PageInfo<UserEntity>(users);
+        return AjaxResult.success(pageInfo);
     }
 
     /**

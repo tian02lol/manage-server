@@ -1,18 +1,28 @@
 package com.example.demo.entity;
 
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
  * role
  * @author 
  */
+@Data
 public class RoleEntity implements Serializable {
     private Integer id;
 
+    @NotEmpty(message = "角色名称不允许为空")
+    @Length(max = 12,message = "最多输入12个字符")
     private String roleName;
 
+    @Length(max = 30,message = "最多输入30个字符")
     private String roleDescription;
 
+    @NotEmpty(message = "角色标识不允许为空")
+    @Length(max = 12,message = "最多输入12个字符")
     private String roleMdules;
 
     private static final long serialVersionUID = 1L;

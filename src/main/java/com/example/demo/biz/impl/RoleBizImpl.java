@@ -3,8 +3,13 @@ package com.example.demo.biz.impl;
 import com.example.demo.entity.RoleEntity;
 import com.example.demo.biz.RoleBiz;
 import com.example.demo.dao.RoleDao;
+import com.example.demo.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class RoleBizImpl implements RoleBiz {
 
     @Autowired
@@ -37,5 +42,10 @@ public class RoleBizImpl implements RoleBiz {
     @Override
     public int updateByPrimaryKey(RoleEntity record) {
         return roleDao.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<UserEntity> selectAll() {
+        return roleDao.selectAll();
     }
 }

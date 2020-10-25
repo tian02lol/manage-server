@@ -1,6 +1,9 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.RoleEntity;
+import com.example.demo.entity.UserEntity;
+
+import java.util.List;
 
 public interface RoleDao {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,5 @@ public interface RoleDao {
     int updateByPrimaryKeySelective(RoleEntity record);
 
     int updateByPrimaryKey(RoleEntity record);
+    List<UserEntity> selectAll();
 }

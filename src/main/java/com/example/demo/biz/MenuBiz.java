@@ -1,6 +1,9 @@
 package com.example.demo.biz;
 
 import com.example.demo.entity.MenuEntity;
+import com.example.demo.entity.UserEntity;
+
+import java.util.List;
 
 public interface MenuBiz {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,5 @@ public interface MenuBiz {
     int updateByPrimaryKeySelective(MenuEntity record);
 
     int updateByPrimaryKey(MenuEntity record);
+    List<MenuEntity> selectAll();
 }

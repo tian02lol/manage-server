@@ -5,6 +5,8 @@ import com.example.demo.dao.MenuDao;
 import com.example.demo.entity.MenuEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class MenuBizImpl implements MenuBiz {
 
     @Autowired
@@ -38,5 +40,10 @@ public class MenuBizImpl implements MenuBiz {
     @Override
     public int updateByPrimaryKey(MenuEntity record) {
         return menuDao.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<MenuEntity> selectAll() {
+        return menuDao.selectAll();
     }
 }
