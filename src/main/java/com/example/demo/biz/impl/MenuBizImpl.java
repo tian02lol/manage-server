@@ -4,9 +4,11 @@ import com.example.demo.biz.MenuBiz;
 import com.example.demo.dao.MenuDao;
 import com.example.demo.entity.MenuEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MenuBizImpl implements MenuBiz {
 
     @Autowired
